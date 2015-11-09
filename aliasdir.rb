@@ -9,3 +9,5 @@ end
 
 say_hi("Eric") 
 say_hi("Anne")
+
+puts "Current dir: " + Dir.pwd
