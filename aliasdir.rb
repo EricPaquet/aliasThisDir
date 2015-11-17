@@ -34,3 +34,5 @@ puts "PATH="+currentPath + ":" + __dir__
 
 # comment with extra
 
+wasGood = system( "echo 'hi'" )
+wasGood = system( "echo 'hi2'" )
