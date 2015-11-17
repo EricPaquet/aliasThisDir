@@ -12,17 +12,25 @@ say_hi("Anne")
 
 puts "Current dir: " + Dir.pwd
 
-ENV["toto"]="4"
+puts "Dir of this file: " + __dir__
+puts "Just dir name: " + File.basename(Dir.getwd)
 
-# echo "hi" > "mycmd.txt"
-# File.write("mycmd.txt", "hi\n")
-File.write("mycmd.txt", "toto=6\n")
-wasGood = system( "echo 'hi'" )
-wasGood = system( "echo 'hi2'" )
-wasGood = system( "cat mycmd.txt" )
 
-# puts "WG " + {wasGood}
+#open('customProfile', 'a') { |f|
+#  f.puts "Hello, world."
+#}
 
-wasGood = system( ". mycmd.txt" )
-wasGood = system( "echo apres" )
+currentPath = ENV["PATH"]
+puts "currentPath="+currentPath
+
+ENV["PATH"] = currentPath + ":" + __dir__
+puts "Path: " + ENV["PATH"]
+
+puts "PATH="+currentPath + ":" + __dir__
+
+# exec customProfile
+
+# set_var.rb BAR > temp.sh ; . temp.sh
+
+# comment with extra
 
