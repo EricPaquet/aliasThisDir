@@ -31,5 +31,7 @@ puts "Path: " + ENV["PATH"]
 # set_var.rb BAR > temp.sh ; . temp.sh
 
 # Another comment. Is it ok ?
+# And another
+
 
 
