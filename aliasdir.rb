@@ -26,8 +26,6 @@ puts "currentPath="+currentPath
 ENV["PATH"] = currentPath + ":" + __dir__
 puts "Path: " + ENV["PATH"]
 
-puts "PATH="+currentPath + ":" + __dir__
-
 # exec customProfile
 
 # set_var.rb BAR > temp.sh ; . temp.sh
