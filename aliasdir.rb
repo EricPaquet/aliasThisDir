@@ -32,5 +32,4 @@ puts "PATH="+currentPath + ":" + __dir__
 
 # set_var.rb BAR > temp.sh ; . temp.sh
 
-# comment with extra
 
