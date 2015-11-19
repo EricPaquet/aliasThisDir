@@ -2,7 +2,6 @@
 
 puts "Hi there !"
 
-
 def say_hi(name)
   puts "Hi " + name
 end
@@ -30,8 +29,17 @@ puts "Path: " + ENV["PATH"]
 
 # set_var.rb BAR > temp.sh ; . temp.sh
 
-# Another comment. Is it ok ?
-# And another
+# func to add dir to path ?
 
+pathCustomProfile=ENV["CUSTOM_PROFILE"]
+if pathCustomProfile == nil
+	puts "Environment variable CUSTOM_PROFILE does not exist"
+else
+	# &&ep check file exist
+	
+	newAlias="alias cd_" + File.basename(Dir.getwd) + "='cd " + Dir.pwd + "'"
+	puts "newAlias: " + newAlias
+	open(pathCustomProfile, 'a') { |f| f.puts newAlias }
+end
 
 
