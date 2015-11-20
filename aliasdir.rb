@@ -36,10 +36,13 @@ if pathCustomProfile == nil
 	puts "Environment variable CUSTOM_PROFILE does not exist"
 else
 	# &&ep check file exist
-	
+	if (not File.exist?(pathCustomProfile))
+		puts "File " + pathCustomProfile + " does not exist; it was created"
+	end
+
 	newAlias="alias cd_" + File.basename(Dir.getwd) + "='cd " + Dir.pwd + "'"
 	puts "newAlias: " + newAlias
-	open(pathCustomProfile, 'a') { |f| f.puts newAlias }
+	File.open(pathCustomProfile, 'a') { |f| f.puts newAlias }
 end
 
 
