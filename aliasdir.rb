@@ -1,23 +1,91 @@
 #!/usr/bin/env ruby
 
-puts "Hi there !"
 
-def say_hi(name)
-  puts "Hi " + name
-end
 
-say_hi("Eric") 
-say_hi("Anne")
+# puts "Hi there !"
 
-puts "Current dir: " + Dir.pwd
+# def say_hi(name)
+#   puts "Hi " + name
+# end
 
-puts "Dir of this file: " + __dir__
-puts "Just dir name: " + File.basename(Dir.getwd)
+# say_hi("Eric") 
+# say_hi("Anne")
+
+# puts "Current dir: " + Dir.pwd
+
+# puts "Dir of this file: " + __dir__
+# puts "Just dir name: " + File.basename(Dir.getwd)
 
 
 #open('customProfile', 'a') { |f|
 #  f.puts "Hello, world."
 #}
+
+
+require 'optparse'
+
+options = {}
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: aliaz.rb [options]"
+
+  # opts.on("-z", "--[no-]verbose", "Run verbosely") do |v|
+  #   options[:theVerbose] = v
+  # end
+
+# Mandatory argument.
+  # opts.on("-r", "--require LIBRARY",
+  #         "Require the LIBRARY before executing your script") do |lib|
+  #   options[:theLibrary] = lib
+  # end
+
+  opts.on("-n", "--name name",
+          "Alias name") do |name|
+    options[:aliasName] = name
+  end
+
+  opts.on("-v", "--value value",
+          "Alias value") do |value|
+    options[:aliasValue] = value
+  end
+
+
+# end.parse!
+end
+
+# begin
+#   option_parser.parse!(ARGV)
+# rescue OptionParser::ParseError
+#   # if $!.to_s =~ /invalid\s+argument\:\s+(\-\-\S+)\s+\-/
+#   #   $stderr.print "Error: missing argument: #{$1}\n"
+#   # else 
+#   #   $stderr.print "Error: " + $! + "\n"
+#   # end  
+#   # exit
+#   p 'in rescue'
+# end
+
+begin option_parser.parse! ARGV
+# rescue OptionParser::InvalidOption => e
+rescue
+  puts 'in rescue'
+#  puts e
+  puts option_parser
+  exit 1
+end
+
+
+# rescue OptionParser::ParseError
+#     p 'toto'
+
+p options
+p options[:aliasValue]
+p ARGV
+
+
+exit
+
+
+
 
 currentPath = ENV["PATH"]
 puts "currentPath="+currentPath
@@ -33,16 +101,16 @@ puts "Path: " + ENV["PATH"]
 
 pathCustomProfile=ENV["CUSTOM_PROFILE"]
 if pathCustomProfile == nil
-	puts "Environment variable CUSTOM_PROFILE does not exist"
+    puts "Environment variable CUSTOM_PROFILE does not exist"
 else
-	# &&ep check file exist
-	if (not File.exist?(pathCustomProfile))
-		puts "File " + pathCustomProfile + " does not exist; it was created"
-	end
+    # &&ep check file exist
+    if (not File.exist?(pathCustomProfile))
+        puts "File " + pathCustomProfile + " does not exist; it was created"
+    end
 
-	newAlias="alias cd_" + File.basename(Dir.getwd) + "='cd " + Dir.pwd + "'"
-	puts "newAlias: " + newAlias
-	File.open(pathCustomProfile, 'a') { |f| f.puts newAlias }
+    newAlias="alias cd_" + File.basename(Dir.getwd) + "='cd " + Dir.pwd + "'"
+    puts "newAlias: " + newAlias
+    File.open(pathCustomProfile, 'a') { |f| f.puts newAlias }
 end
 
 
