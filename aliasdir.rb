@@ -67,7 +67,7 @@ end
 begin option_parser.parse! ARGV
 # rescue OptionParser::InvalidOption => e
 rescue
-  puts 'in rescue'
+  puts 'Invalid parameters.'
 #  puts e
   puts option_parser
   exit 1
@@ -80,6 +80,29 @@ end
 p options
 p options[:aliasValue]
 p ARGV
+
+# Compose the alias
+if options[:aliasName] != nil
+    aliasName = options[:aliasName]
+else
+    # No alias name specified. Use current directory name as in 'cd_currentDirectory'
+    aliasName = "cd_" + File.basename(Dir.getwd)
+end
+
+if options[:aliasValue] != nil
+    aliasValue = options[:aliasValue]
+else
+    # No alias value specified. Set is as 'cd path/to/currentDirectory'
+    aliasValue = "'cd " + Dir.pwd + "'"
+end
+
+newAlias = "alias " + aliasName + "='" + aliasValue + "'"
+puts "newAlias: " + newAlias
+
+
+pathCustomProfile=ENV["CUSTOM_PROFILE"]
+File.open(pathCustomProfile, 'a') { |f| f.puts newAlias }
+
 
 
 exit
