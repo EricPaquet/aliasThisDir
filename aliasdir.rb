@@ -64,22 +64,25 @@ end
 #   p 'in rescue'
 # end
 
+p ARGV
+
 begin option_parser.parse! ARGV
 # rescue OptionParser::InvalidOption => e
 rescue
   puts 'Invalid parameters.'
 #  puts e
   puts option_parser
-  exit 1
-end
 
+  # 0 : error
+  exit 0
+end
 
 # rescue OptionParser::ParseError
 #     p 'toto'
 
-p options
-p options[:aliasValue]
-p ARGV
+# p options
+# p options[:aliasValue]
+# p ARGV
 
 # Compose the alias
 if options[:aliasName] != nil
@@ -93,7 +96,7 @@ if options[:aliasValue] != nil
     aliasValue = options[:aliasValue]
 else
     # No alias value specified. Set is as 'cd path/to/currentDirectory'
-    aliasValue = "'cd " + Dir.pwd + "'"
+    aliasValue = "cd " + Dir.pwd
 end
 
 newAlias = "alias " + aliasName + "='" + aliasValue + "'"
@@ -104,8 +107,8 @@ pathCustomProfile=ENV["CUSTOM_PROFILE"]
 File.open(pathCustomProfile, 'a') { |f| f.puts newAlias }
 
 
-
-exit
+# 1 : success
+exit 1
 
 
 
@@ -124,7 +127,7 @@ puts "Path: " + ENV["PATH"]
 
 pathCustomProfile=ENV["CUSTOM_PROFILE"]
 if pathCustomProfile == nil
-    puts "Environment variable CUSTOM_PROFILE does not exist"
+    puts "CUSTOM_PROFILE environment variable does not exist"
 else
     # &&ep check file exist
     if (not File.exist?(pathCustomProfile))
