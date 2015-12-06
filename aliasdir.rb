@@ -26,7 +26,7 @@ require 'optparse'
 
 options = {}
 option_parser = OptionParser.new do |opts|
-  opts.banner = "Usage: aliaz.rb [options]"
+  opts.banner = "Usage: aliasdir.rb [options]"
 
   # opts.on("-z", "--[no-]verbose", "Run verbosely") do |v|
   #   options[:theVerbose] = v
@@ -38,15 +38,15 @@ option_parser = OptionParser.new do |opts|
   #   options[:theLibrary] = lib
   # end
 
-  opts.on("-n", "--name name",
+  opts.on("-a", "--alias alias",
           "Alias name") do |name|
     options[:aliasName] = name
   end
 
-  opts.on("-v", "--value value",
-          "Alias value") do |value|
-    options[:aliasValue] = value
-  end
+#  opts.on("-v", "--value value",
+#          "Alias value") do |value|
+#    options[:aliasValue] = value
+#  end
 
 
 # end.parse!
@@ -77,6 +77,15 @@ rescue
   exit 0
 end
 
+if ARGV[0] != nil
+  puts "ARGV:" + ARGV[0]
+  puts 'Invalid parameters.'
+  puts option_parser
+
+  # 0 : error
+  exit 0
+end
+
 # rescue OptionParser::ParseError
 #     p 'toto'
 
@@ -92,12 +101,14 @@ else
     aliasName = "cd_" + File.basename(Dir.getwd)
 end
 
-if options[:aliasValue] != nil
-    aliasValue = options[:aliasValue]
-else
-    # No alias value specified. Set is as 'cd path/to/currentDirectory'
-    aliasValue = "cd " + Dir.pwd
-end
+aliasValue = "cd " + Dir.pwd
+
+# if options[:aliasValue] != nil
+#     aliasValue = options[:aliasValue]
+# else
+#     # No alias value specified. Set is as 'cd path/to/currentDirectory'
+#     aliasValue = "cd " + Dir.pwd
+# end
 
 newAlias = "alias " + aliasName + "='" + aliasValue + "'"
 puts "newAlias: " + newAlias
