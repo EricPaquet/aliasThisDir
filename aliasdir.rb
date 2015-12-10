@@ -1,76 +1,27 @@
 #!/usr/bin/env ruby
 
-
-
-# puts "Hi there !"
-
-# def say_hi(name)
-#   puts "Hi " + name
-# end
-
-# say_hi("Eric") 
-# say_hi("Anne")
-
-# puts "Current dir: " + Dir.pwd
-
-# puts "Dir of this file: " + __dir__
-# puts "Just dir name: " + File.basename(Dir.getwd)
-
-
-#open('customProfile', 'a') { |f|
-#  f.puts "Hello, world."
-#}
-
-
 require 'optparse'
 
 options = {}
 option_parser = OptionParser.new do |opts|
   opts.banner = "Usage: aliasdir.rb [options]"
 
-  # opts.on("-z", "--[no-]verbose", "Run verbosely") do |v|
-  #   options[:theVerbose] = v
-  # end
-
-# Mandatory argument.
-  # opts.on("-r", "--require LIBRARY",
-  #         "Require the LIBRARY before executing your script") do |lib|
-  #   options[:theLibrary] = lib
-  # end
-
   opts.on("-a", "--alias alias",
           "Alias name") do |name|
     options[:aliasName] = name
   end
 
-#  opts.on("-v", "--value value",
-#          "Alias value") do |value|
-#    options[:aliasValue] = value
-#  end
+# Example with optional argument
+  # opts.on("-z", "--[no-]verbose", "Run verbosely") do |v|
+  #   options[:theVerbose] = v
+  # end
 
-
-# end.parse!
 end
 
-# begin
-#   option_parser.parse!(ARGV)
-# rescue OptionParser::ParseError
-#   # if $!.to_s =~ /invalid\s+argument\:\s+(\-\-\S+)\s+\-/
-#   #   $stderr.print "Error: missing argument: #{$1}\n"
-#   # else 
-#   #   $stderr.print "Error: " + $! + "\n"
-#   # end  
-#   # exit
-#   p 'in rescue'
-# end
-
-p ARGV
-
+# Parse options and catch errors
 begin option_parser.parse! ARGV
-# rescue OptionParser::InvalidOption => e
 rescue
   puts 'Invalid parameters.'
-#  puts e
   puts option_parser
 
   # 0 : error
@@ -86,35 +37,33 @@ if ARGV[0] != nil
   exit 0
 end
 
-# rescue OptionParser::ParseError
-#     p 'toto'
+pathCustomProfile=ENV["CUSTOM_PROFILE"]
 
-# p options
-# p options[:aliasValue]
-# p ARGV
+if pathCustomProfile == nil
+    puts "CUSTOM_PROFILE environment variable does not exist"
+    exit 0
+else
+    if (not File.exist?(pathCustomProfile))
+        puts "File " + pathCustomProfile + " does not exist; it was created"
+    end
+end
 
 # Compose the alias
 if options[:aliasName] != nil
+    # A name for the alias was specified with the "-a" option
     aliasName = options[:aliasName]
 else
     # No alias name specified. Use current directory name as in 'cd_currentDirectory'
     aliasName = "cd_" + File.basename(Dir.getwd)
 end
 
+# The alias is used to cd to the current directory
 aliasValue = "cd " + Dir.pwd
 
-# if options[:aliasValue] != nil
-#     aliasValue = options[:aliasValue]
-# else
-#     # No alias value specified. Set is as 'cd path/to/currentDirectory'
-#     aliasValue = "cd " + Dir.pwd
-# end
+newAlias = aliasName + "='" + aliasValue + "'"
+puts "A new alias has been created: " + newAlias
+newAlias = "alias " + newAlias
 
-newAlias = "alias " + aliasName + "='" + aliasValue + "'"
-puts "newAlias: " + newAlias
-
-
-pathCustomProfile=ENV["CUSTOM_PROFILE"]
 File.open(pathCustomProfile, 'a') { |f| f.puts newAlias }
 
 
